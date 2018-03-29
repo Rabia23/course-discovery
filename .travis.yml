@@ -4,7 +4,7 @@ python:
     - "3.5"
 
 services:
-- docker
+  - docker
 
 sudo: required
 
@@ -23,14 +23,13 @@ install:
   - docker exec -t discovery bash -c 'source /edx/app/discovery/discovery_env && cd /edx/app/discovery/discovery/ && make requirements'
 
 script:
-    - python .travis/check_master_build.py --commit $TRAVIS_COMMIT --github_status_token $GITHUB_STATUS_TOKEN --travis_api_token $TRAVIS_API_TOKEN &
+    - python .travis/check_master_build.py --commit $TRAVIS_COMMIT --github_status_token $GITHUB_STATUS_TOKEN --travis_api_token $TRAVIS_API_TOKEN
     - docker exec -t discovery bash -c 'source /edx/app/discovery/discovery_env && cd /edx/app/discovery/discovery/ && make docs'
     - docker exec -t discovery bash -c 'source /edx/app/discovery/discovery_env && cd /edx/app/discovery/discovery/ && make validate_translations'
     - docker exec -t discovery bash -c 'source /edx/app/discovery/discovery_env && cd /edx/app/discovery/discovery/ && make clean_static'
     - docker exec -t discovery bash -c 'source /edx/app/discovery/discovery_env && cd /edx/app/discovery/discovery/ && make static'
     - docker exec -t discovery bash -c 'source /edx/app/discovery/discovery_env && cd /edx/app/discovery/discovery/ && make quality'
     - docker exec -t discovery bash -c 'source /edx/app/discovery/discovery_env && cd /edx/app/discovery/discovery/ && xvfb-run make test'
-
 
 after_success:
     - pip install -U codecov

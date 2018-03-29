@@ -61,7 +61,7 @@ def update_github_status(commit_hash, git_token, payload):
     }
 
     url = 'https://api.github.com/repos/edx/course-discovery/statuses/{}'.format(commit_hash)
-    data = json.dumps(payload).encode()
+    data = json.dumps(payload).encode('utf-8')
     r = urllib.request.Request(url=url, headers=headers, data=data)
     response = urllib.request.urlopen(r)
     if response.code == 201:
